@@ -1,23 +1,51 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="ToDoStyles.css" />
     <title></title>
 </head>
 <body>
-   <form>
-    <input id = "goals" type="text" size="30">
-    <input type="button" value="Принять" id="acceptButton">
-    </form>
-   
-   <div id = selectedGoals> </div>
+<div class = menu>
+    <h1> Мой список дел </h1>
+    <input class = "goals" type="text" size="30">
+    <input type="button" value="Принять" class="acceptButton">
+</div>       
+<div class = "listGoals">
+ 
+</div>
+<input type="button" value="Удалить выполненное" class="deleteGoals">
    <script>
-     document.getElementById('acceptButton').onclick = function () {
-            let context = document.getElementById('goals').value; 
-            document.getElementById('selectedGoals').innerHTML += "<p>" + context + "</p>";
-           
-         };
+     var goalsArray = [];
+     document.querySelector('.acceptButton').onclick = function buttonAccept () {
+      context = document.querySelector('.goals').value;
+      goalsArray.push(context);
+      let lastGoals = goalsArray[goalsArray.length - 1];
+      document.querySelector('.listGoals').innerHTML += '<div class="selectedGoals">' + '<label><input type ="checkbox" name = "chooseGoals" checked = "checked" onclick = "changeColor()"><span></span></label> ' + lastGoals + "</div>";
+      document.querySelector('.goals').value = "";
+      };
+
+     function changeColor() {
+      for (let j = 0; j < goalsArray.length; j ++) {
+       if ((document.querySelectorAll("input[type='checkbox']")[j].checked) == false) {
+          document.querySelectorAll('.selectedGoals')[j].style.backgroundColor = "green";
+          document.querySelectorAll('.selectedGoals')[j].style.textDecoration  = "line-through";
+       } else {
+         document.querySelectorAll('.selectedGoals')[j].style.backgroundColor = "red";
+         document.querySelectorAll('.selectedGoals')[j].style.textDecoration  = "none";
+       }
+             }
+     }
+     
+     document.querySelector('.deleteGoals').onclick = function deleteNonChecked() {
+      for (let i = 0; i < goalsArray.length; i++) {
+       if ((document.querySelectorAll("input[type='checkbox']")[i].checked) == false) {
+         document.querySelectorAll('.selectedGoals')[i].remove();
+         i --;
+       }
+      }
+     }
     </script>
 </body>
 </html>
